@@ -1,0 +1,9 @@
+.idea/
+.DS_Store
+
+go.sum
+*/go.sum
+*go.sum
+
+main
+quant-order

@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+// 用绝对路径比较好，修改为自己的目录
+option go_package = "/Users/weiwenchong/github/quant-order/pub";
+
+package pub;
+
+service Order {
+    // 创建订单
+    rpc CreateGridOrder(CreateGridOrderReq) returns (CreateGridOrderRes) {}
+}
+
+message CreateGridOrderReq {
+    int64 uid = 1;
+    // 券商类型 1模拟交易
+    int32 broker_type = 2;
+    // 量化类型 1网格交易
+    int32 quant_type = 3;
+    // 资产类型 1上证 2深证 3美股(包括道琼斯和纳斯达克) 4港股
+    int32 asset_type = 4;
+    // 资产代号
+    string asset_code = 5;
+    // 投入资金量 全都*1000,转为整数
+    int64 total_money = 6;
+    // 网格数量
+    int64 grid_num = 7;
+    // 网格上限
+    int64 grid_max = 8;
+    // 网格下限
+    int64 grid_min = 9;
+}
+
+message CreateGridOrderRes {
+    // 投入资金量
+    int64 total_money = 1;
+    // 网格详情
+    repeated GridData grids = 2;
+}
+
+message GridData {
+    // 资产数
+    int64 asset_num = 1;
+    // 上线
+    int64 grid_max = 2;
+    // 下线
+    int64 grid_min = 3;
+}
+
+message AssetData {
+    // 资产类型 -1人名币 -2港币 -3美元 1上证 2深证 3美股(包括道琼斯和纳斯达克) 4港股
+    int32 asset_type = 1;
+    string asset_code = 2;
+    int64 asset_num = 3;
+}
