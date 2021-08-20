@@ -39,7 +39,7 @@ func init() {
 	//	MaxConnLifetime: 0,
 	//}
 	Client = redis.NewClient(&redis.Options{
-		Addr:     "39.107.123.202:6379",
+		Addr:     "172.17.0.1:6379",
 		Password: "Wwcwwc123",
 		DB:       0,
 	})

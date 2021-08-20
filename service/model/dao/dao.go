@@ -17,7 +17,7 @@ var DB *sql.DB
 func init() {
 	log.Printf("db init")
 	db, err := manager.New(
-		"quantorder", "root", "Wwcwwc123", "39.107.123.202",
+		"quantorder", "root", "Wwcwwc123", "172.17.0.1",
 	).Set(manager.SetCharset("utf8"),
 		manager.SetAllowCleartextPasswords(true),
 		manager.SetInterpolateParams(true),
