@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-const PORT = ":10001"
+const PORT = "172.17.0.3:10001"
 
 var Client OrderClient
 
@@ -20,7 +20,7 @@ func init() {
 			conn.Close()
 			log.Printf("conn close")
 		}()
-		select{}
+		select {}
 	}()
 	Client = NewOrderClient(conn)
 }

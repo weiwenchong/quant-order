@@ -18,6 +18,7 @@ func (m *GrpcOrder) CreateGridOrder(ctx context.Context, req *CreateGridOrderReq
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("%s CreateOrder succeed grider:%v", fun, grider)
 	// 创建任务
 	err = grider.InitTask(ctx)
 	if err != nil {
