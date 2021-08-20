@@ -60,7 +60,11 @@ func (m *grider) CreateOrder(ctx context.Context, req *CreateGridOrderReq) (err 
 	if err != nil {
 		return
 	}
+	log.Println(info)
 	buyLimit := info.Buylimit
+	if buyLimit == 0 {
+		buyLimit = 1
+	}
 
 	gridDiff := (req.GridMax - req.GridMin) / req.GridNum
 	var perMoney int64 = 0
@@ -226,7 +230,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		return
 	case 1:
 		// sell
-		orderInfo := &dao.OrderInfo{}
+		orderInfo := new(dao.OrderInfo)
 		err := dao.SelectOne(ctx, dao.DB, dao.ORDER_INFO, map[string]interface{}{}, orderInfo)
 		if err != nil {
 			log.Printf("%s SelectOne err:%v", fun, err)

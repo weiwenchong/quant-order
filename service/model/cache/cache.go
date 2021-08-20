@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis"
+	"log"
 
 	//"github.com/gomodule/redigo/redis"
 	"strconv"
@@ -14,6 +15,7 @@ import (
 var Client *redis.Client
 
 func init() {
+	log.Printf("cache init")
 	//pool = &redis.Pool{
 	//	Dial: func() (redis.Conn, error) {
 	//		conn, err := redis.Dial("tcp", "172.17.0.1:6379")
@@ -37,10 +39,11 @@ func init() {
 	//	MaxConnLifetime: 0,
 	//}
 	Client = redis.NewClient(&redis.Options{
-		Addr:     "172.17.0.1:6379",
+		Addr:     "39.107.123.202:6379",
 		Password: "Wwcwwc123",
 		DB:       0,
 	})
+	log.Printf("cache init succeed")
 }
 
 func GetAssetPrice(ctx context.Context, t int32, code string) (price int64, err error) {

@@ -15,8 +15,9 @@ import (
 var DB *sql.DB
 
 func init() {
+	log.Printf("db init")
 	db, err := manager.New(
-		"quantorder", "root", "Wwcwwc123", "172.17.0.1",
+		"quantorder", "root", "Wwcwwc123", "39.107.123.202",
 	).Set(manager.SetCharset("utf8"),
 		manager.SetAllowCleartextPasswords(true),
 		manager.SetInterpolateParams(true),
@@ -29,6 +30,7 @@ func init() {
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(5)
 	DB = db
+	log.Printf("db init succeed")
 }
 
 func SelectOne(ctx context.Context, db *sql.DB, tableName string, where map[string]interface{}, target interface{}) (err error) {
@@ -45,10 +47,11 @@ func SelectOne(ctx context.Context, db *sql.DB, tableName string, where map[stri
 		return err
 	}
 	defer row.Close()
-	err = scanner.Scan(row, &target)
+	err = scanner.Scan(row, target)
 	return err
 }
 
+// 传入之前必须是数组指针
 func SelectList(ctx context.Context, db *sql.DB, tableName string, where map[string]interface{}, target interface{}) (err error) {
 	if db == nil {
 		return errors.New("DB nil")
@@ -62,7 +65,7 @@ func SelectList(ctx context.Context, db *sql.DB, tableName string, where map[str
 		return err
 	}
 	defer row.Close()
-	err = scanner.Scan(row, &target)
+	err = scanner.Scan(row, target)
 	return err
 }
 

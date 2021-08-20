@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	. "github.com/wenchong-wei/quant-order/pub"
 	"github.com/wenchong-wei/quant-order/service/logic"
 	"google.golang.org/grpc"
@@ -9,12 +10,13 @@ import (
 )
 
 func main() {
+	fmt.Println("service start")
 	lis, err := net.Listen("tcp", PORT)
 	if err != nil {
 		log.Panicf("quant-order service listen err:%v", err)
 		return
 	}
-
+	fmt.Println(lis)
 	logic.InitLogic()
 
 	s := grpc.NewServer()

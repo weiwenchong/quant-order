@@ -8,7 +8,7 @@ import (
 
 func GetIfNotInsertAssetInfo(ctx context.Context, t int32, code string) (info *AssetInfo, err error) {
 	fun := "GetIfNotInsertAssetInfo -->"
-	info = &AssetInfo{}
+	info = new(AssetInfo)
 	err = SelectOne(ctx, DB, ASSET_INFO, map[string]interface{}{"type": t, "code": code}, info)
 	if err != nil {
 		if strings.Contains(err.Error(), "empty result") {
