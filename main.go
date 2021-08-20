@@ -19,9 +19,9 @@ func main() {
 
 	s := grpc.NewServer()
 	RegisterOrderServer(s, new(logic.GrpcOrder))
+	log.Println("order start")
 	if err = s.Serve(lis); err != nil {
 		log.Panicf("quant-order serve err:%v", err)
 	}
-
 
 }

@@ -13,6 +13,7 @@ type GrpcOrder struct {
 
 func (m *GrpcOrder) CreateGridOrder(ctx context.Context, req *CreateGridOrderReq) (*CreateGridOrderRes, error) {
 	fun := "GrpcOrder.CreateOrder -->"
+	log.Printf("%s incall", fun)
 	grider := quant.FactoryGrider()
 	err := grider.CreateOrder(ctx, req)
 	if err != nil {
