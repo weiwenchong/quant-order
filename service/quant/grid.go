@@ -95,18 +95,16 @@ func (m *grider) InitTask(ctx context.Context) error {
 		return err
 	}
 
-	// todo 购买
+	// 购买
 	price, err := cache.GetAssetPrice(ctx, m.AssetType, m.AssetCode)
 	if err != nil {
 		return err
 	}
 	var buyNum int64 = 0
 	minTask := make([]*GridData, 0)
-	maxTask := make([]*GridData, 0)
 	for _, g := range m.Grids {
 		if g.GridMin > price {
 			buyNum += g.AssetNum
-			maxTask = append(maxTask, g)
 		} else {
 			minTask = append(minTask, g)
 		}
@@ -116,6 +114,12 @@ func (m *grider) InitTask(ctx context.Context) error {
 	tradMoney, err := trader.FactoryTrader(m.BrokeType, m.Uid).Buy(ctx, m.AssetType, m.AssetCode, buyNum, -1)
 	if err != nil {
 		return err
+	}
+	for _, t := range minTask {
+		_, err = trader.FactoryTrader(m.BrokeType, m.Uid).Buy(ctx, m.AssetType, m.AssetCode, t.AssetNum, t.GridMin)
+		if err != nil {
+			log.Printf("%s FactoryTrader minTask err:%v")
+		}
 	}
 	var freeze int64
 	if m.AssetType == 1 || m.AssetType == 2 {
@@ -135,35 +139,13 @@ func (m *grider) InitTask(ctx context.Context) error {
 		"ct":        time.Now().Unix(),
 	}})
 
-	// todo 批量发送task
+	// 批量发送task
 	createTaskReq := &task.CreatePriceTaskReq{
 		Source: task.SourceService_ORDER,
 		Tasks:  make([]*task.PriceTask, 0),
 	}
-	// minTask 挂价格大于最大价格的买单
-	for _, t := range minTask {
-		tm := &griderTask{
-			Uid:       m.Uid,
-			Id:        id,
-			BrokeType: m.BrokeType,
-			AssetType: m.AssetType,
-			AssetCode: m.AssetCode,
-			Grid:      t,
-			// 买单
-			TradeType: 0,
-		}
-		b, _ := json.Marshal(tm)
-		createTaskReq.Tasks = append(createTaskReq.Tasks, &task.PriceTask{
-			AssetType: m.AssetType,
-			AssetCode: m.AssetCode,
-			Condition: task.PriceCondition_GREATER,
-			Price:     t.GridMax,
-			TaskType:  GRID_TASK,
-			Message:   string(b),
-		})
-	}
-	// maxTask 挂价格小于最小价格的卖
-	for _, t := range minTask {
+	// 挂价格小于最小价格的卖
+	for _, t := range m.Grids {
 		tm := &griderTask{
 			Uid:       m.Uid,
 			Id:        id,
@@ -175,13 +157,16 @@ func (m *grider) InitTask(ctx context.Context) error {
 			TradeType: 1,
 		}
 		b, _ := json.Marshal(tm)
+		tq, _ := json.Marshal(Task{
+			Type: GRID_TASK,
+			Req:  string(b),
+		})
 		createTaskReq.Tasks = append(createTaskReq.Tasks, &task.PriceTask{
 			AssetType: m.AssetType,
 			AssetCode: m.AssetCode,
 			Condition: task.PriceCondition_LESS,
 			Price:     t.GridMin,
-			TaskType:  GRID_TASK,
-			Message:   string(b),
+			Message:   string(tq),
 		})
 	}
 	_, err = task.Client.CreatePriceTask(ctx, createTaskReq)
@@ -211,6 +196,10 @@ func (m *griderTask) DoTask(ctx context.Context) {
 
 		m.TradeType = 1
 		tm, _ := json.Marshal(m)
+		tq, _ := json.Marshal(Task{
+			Type: GRID_TASK,
+			Req:  string(tm),
+		})
 		// 买到以后的卖单下任务
 		createTaskReq := &task.CreatePriceTaskReq{
 			Source: task.SourceService_ORDER,
@@ -219,8 +208,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 				AssetCode: m.AssetCode,
 				Condition: task.PriceCondition_LESS,
 				Price:     m.Grid.GridMin,
-				TaskType:  GRID_TASK,
-				Message:   string(tm),
+				Message:   string(tq),
 			}},
 		}
 		_, err = task.Client.CreatePriceTask(ctx, createTaskReq)
@@ -236,14 +224,18 @@ func (m *griderTask) DoTask(ctx context.Context) {
 			log.Printf("%s SelectOne err:%v", fun, err)
 		}
 		var startTime int64
+		var freeze int64
 		if orderInfo.Hold-orderInfo.Freeze < m.Grid.AssetNum {
 			// t+1 今天冻结，明天开始卖
 			startTime, _ = GetTradeTimeByAssetType(m.AssetType)
 			startTime += util.DayBeginStamp(time.Now().Unix())
 		}
+		if orderInfo.AssetType == 1 || orderInfo.AssetType == 2 {
+			freeze = m.Grid.AssetNum
+		}
 
 		// 已买入，更新持有
-		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set hold = hold + %d, freeze = freeze + %d, where id=%d", dao.ORDER_INFO, m.Grid.AssetNum, m.Grid.AssetNum, m.Id))
+		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set hold = hold + %d, freeze = freeze + %d, where id=%d", dao.ORDER_INFO, m.Grid.AssetNum, freeze, m.Id))
 		if err != nil {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
@@ -254,6 +246,10 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		}
 		m.TradeType = 0
 		tm, _ := json.Marshal(m)
+		tq, _ := json.Marshal(Task{
+			Type: GRID_TASK,
+			Req:  string(tm),
+		})
 		createTaskReq := &task.CreatePriceTaskReq{
 			Source: task.SourceService_ORDER,
 			Tasks: []*task.PriceTask{{
@@ -261,9 +257,8 @@ func (m *griderTask) DoTask(ctx context.Context) {
 				AssetCode: m.AssetCode,
 				Condition: task.PriceCondition_GREATER,
 				Price:     m.Grid.GridMax,
-				TaskType:  GRID_TASK,
 				StartTime: startTime,
-				Message:   string(tm),
+				Message:   string(tq),
 			}},
 		}
 		_, err = task.Client.CreatePriceTask(ctx, createTaskReq)

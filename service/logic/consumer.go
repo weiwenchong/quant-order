@@ -19,7 +19,7 @@ func consumRedisTopic(ctx context.Context) {
 		}
 		switch ms := message.(type) {
 		case redis.Message:
-			quant.FactoryGriderTask(ms.Payload).DoTask(ctx)
+			quant.ConsumerTask(ctx, ms.Payload)
 			log.Printf("%s receive msg:%s", fun, ms.Payload)
 		default:
 			log.Printf("%s receive err msg :%v", fun, ms)
