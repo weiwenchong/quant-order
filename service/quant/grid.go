@@ -125,7 +125,7 @@ func (m *grider) InitTask(ctx context.Context) error {
 	if m.AssetType == 1 || m.AssetType == 2 {
 		freeze = tradMoney
 	}
-	id, err := dao.Insert(ctx, dao.DB, dao.ASSET_INFO, []map[string]interface{}{{
+	id, err := dao.Insert(ctx, dao.DB, dao.ORDER_INFO, []map[string]interface{}{{
 		"uid":       m.Uid,
 		"broketype": m.BrokeType,
 		"quanttype": 1,
@@ -138,6 +138,11 @@ func (m *grider) InitTask(ctx context.Context) error {
 		"freeze":    freeze,
 		"ct":        time.Now().Unix(),
 	}})
+
+	if err != nil {
+		log.Printf("%s dao.Insert err:%v", fun, err)
+		return err
+	}
 
 	// 批量发送task
 	createTaskReq := &task.CreatePriceTaskReq{
