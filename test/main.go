@@ -12,11 +12,11 @@ func main() {
 		Uid:        1,
 		BrokerType: 1,
 		QuantType:  1,
-		AssetType:  1,
-		AssetCode:  "513",
-		TotalMoney: 10000000,
+		AssetType:  3,
+		AssetCode:  "BABA",
+		TotalMoney: 300000000,
 		GridNum:    10,
-		GridMax:    1000,
+		GridMax:    300000,
 		GridMin:    0,
 	}))
 }
