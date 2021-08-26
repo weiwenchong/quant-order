@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-const PORT = "172.17.0.3:10001"
+const PORT = "0.0.0.0:10001"
 
 var Client OrderClient
 

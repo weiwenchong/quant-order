@@ -17,6 +17,7 @@ import (
 )
 
 type grider struct {
+	order
 	Uid        int64
 	BrokeType  int32
 	AssetType  int32
@@ -29,6 +30,7 @@ type grider struct {
 type griderTask struct {
 	Uid       int64
 	Id        int64
+	BuyPrice  int64
 	BrokeType int32
 	AssetType int32
 	AssetCode string
@@ -85,6 +87,11 @@ func (m *grider) CreateOrder(ctx context.Context, req *CreateGridOrderReq) (err 
 		g.AssetNum = perNum
 	}
 	m.TotalMoney = perMoney * perNum
+	// 创建任务
+	err = m.InitTask(ctx)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -100,7 +107,9 @@ func (m *grider) InitTask(ctx context.Context) error {
 	if err != nil {
 		return err
 	}
-	var buyNum int64 = 0
+	var (
+		buyNum int64 = 0
+	)
 	minTask := make([]*GridData, 0)
 	for _, g := range m.Grids {
 		if g.GridMin > price {
@@ -121,19 +130,21 @@ func (m *grider) InitTask(ctx context.Context) error {
 			log.Printf("%s FactoryTrader minTask err:%v")
 		}
 	}
+	perPrice := tradMoney / int64(len(m.Grids)-len(minTask))
 	var freeze int64
 	if m.AssetType == 1 || m.AssetType == 2 {
 		freeze = tradMoney
 	}
 	id, err := dao.Insert(ctx, dao.DB, dao.ORDER_INFO, []map[string]interface{}{{
 		"uid":       m.Uid,
+		"status":    1,
 		"broketype": m.BrokeType,
 		"quanttype": 1,
 		"assettype": m.AssetType,
 		"assetcode": m.AssetCode,
 		"total":     m.TotalMoney,
 		"info":      string(info),
-		"hold":      tradMoney,
+		"hold":      buyNum,
 		"profit":    0,
 		"freeze":    freeze,
 		"ct":        time.Now().Unix(),
@@ -154,6 +165,7 @@ func (m *grider) InitTask(ctx context.Context) error {
 		tm := &griderTask{
 			Uid:       m.Uid,
 			Id:        id,
+			BuyPrice:  perPrice,
 			BrokeType: m.BrokeType,
 			AssetType: m.AssetType,
 			AssetCode: m.AssetCode,
@@ -187,9 +199,17 @@ func (m *griderTask) DoTask(ctx context.Context) {
 	fun := "griderTask.DoTask -->"
 	switch m.TradeType {
 	case 0:
+		info := new(dao.OrderInfo)
+		err := dao.SelectOne(ctx, dao.DB, dao.ORDER_INFO, map[string]interface{}{"id": m.Id}, info)
+		if err != nil {
+			log.Printf("%s SelectOne err:%v", fun, err)
+		}
+		if info.Status == 0 {
+			return
+		}
 		// 已经sell，下buy单
 		// 更新收益
-		_, err := dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set profit = profit + %d, hold = hold - %d, where id=%d", dao.ORDER_INFO, (m.Grid.GridMax-m.Grid.GridMin)*m.Grid.AssetNum, m.Grid.AssetNum, m.Id))
+		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set profit = profit + %d, hold = hold - %d, where id=%d", dao.ORDER_INFO, (m.Grid.GridMax-m.BuyPrice)*m.Grid.AssetNum, m.Grid.AssetNum, m.Id))
 		if err != nil {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
@@ -200,6 +220,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		}
 
 		m.TradeType = 1
+		m.BuyPrice = m.Grid.GridMin
 		tm, _ := json.Marshal(m)
 		tq, _ := json.Marshal(Task{
 			Type: GRID_TASK,
@@ -223,19 +244,22 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		return
 	case 1:
 		// sell
-		orderInfo := new(dao.OrderInfo)
-		err := dao.SelectOne(ctx, dao.DB, dao.ORDER_INFO, map[string]interface{}{}, orderInfo)
+		info := new(dao.OrderInfo)
+		err := dao.SelectOne(ctx, dao.DB, dao.ORDER_INFO, map[string]interface{}{}, info)
 		if err != nil {
 			log.Printf("%s SelectOne err:%v", fun, err)
 		}
+		if info.Status == 0 {
+			return
+		}
 		var startTime int64
 		var freeze int64
-		if orderInfo.Hold-orderInfo.Freeze < m.Grid.AssetNum {
+		if (info.AssetType == 1 || info.AssetType == 2) && info.Hold-info.Freeze < m.Grid.AssetNum {
 			// t+1 今天冻结，明天开始卖
 			startTime, _ = GetTradeTimeByAssetType(m.AssetType)
 			startTime += util.DayBeginStamp(time.Now().Unix())
 		}
-		if orderInfo.AssetType == 1 || orderInfo.AssetType == 2 {
+		if info.AssetType == 1 || info.AssetType == 2 {
 			freeze = m.Grid.AssetNum
 		}
 

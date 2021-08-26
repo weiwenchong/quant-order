@@ -16,6 +16,7 @@ type AssetInfo struct {
 type OrderInfo struct {
 	Id        int64  `json:"id" ddb:"id"`
 	Uid       int64  `json:"uid" ddb:"uid"`
+	Status    int32  `json:"status" ddb:"status"`       // 订单状态 1正在运行 0已关闭
 	BrokeType int32  `json:"broketype" ddb:"broketype"` // 券商类型 1模拟交易
 	QuantType int32  `json:"quanttype" ddb:"quanttype"` // 1网格
 	AssetType int32  `json:"assettype" ddb:"assettype"` // 1上证 2深证 3美股 4港股

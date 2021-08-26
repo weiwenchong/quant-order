@@ -30,7 +30,7 @@ type CreateGridOrderReq struct {
 	unknownFields protoimpl.UnknownFields
 
 	Uid int64 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
-	// 券商类型
+	// 券商类型 1模拟交易
 	BrokerType int32 `protobuf:"varint,2,opt,name=broker_type,json=brokerType,proto3" json:"broker_type,omitempty"`
 	// 量化类型 1网格交易
 	QuantType int32 `protobuf:"varint,3,opt,name=quant_type,json=quantType,proto3" json:"quant_type,omitempty"`
@@ -330,6 +330,336 @@ func (x *AssetData) GetAssetNum() int64 {
 	return 0
 }
 
+type CloseOrderReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Uid int64 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	Oid int64 `protobuf:"varint,2,opt,name=oid,proto3" json:"oid,omitempty"`
+}
+
+func (x *CloseOrderReq) Reset() {
+	*x = CloseOrderReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quant_order_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloseOrderReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseOrderReq) ProtoMessage() {}
+
+func (x *CloseOrderReq) ProtoReflect() protoreflect.Message {
+	mi := &file_quant_order_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseOrderReq.ProtoReflect.Descriptor instead.
+func (*CloseOrderReq) Descriptor() ([]byte, []int) {
+	return file_quant_order_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CloseOrderReq) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *CloseOrderReq) GetOid() int64 {
+	if x != nil {
+		return x.Oid
+	}
+	return 0
+}
+
+type CloseOrderRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *CloseOrderRes) Reset() {
+	*x = CloseOrderRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quant_order_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *CloseOrderRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CloseOrderRes) ProtoMessage() {}
+
+func (x *CloseOrderRes) ProtoReflect() protoreflect.Message {
+	mi := &file_quant_order_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CloseOrderRes.ProtoReflect.Descriptor instead.
+func (*CloseOrderRes) Descriptor() ([]byte, []int) {
+	return file_quant_order_proto_rawDescGZIP(), []int{5}
+}
+
+type GetOrdersByUidReq struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Uid int64 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
+}
+
+func (x *GetOrdersByUidReq) Reset() {
+	*x = GetOrdersByUidReq{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quant_order_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOrdersByUidReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOrdersByUidReq) ProtoMessage() {}
+
+func (x *GetOrdersByUidReq) ProtoReflect() protoreflect.Message {
+	mi := &file_quant_order_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOrdersByUidReq.ProtoReflect.Descriptor instead.
+func (*GetOrdersByUidReq) Descriptor() ([]byte, []int) {
+	return file_quant_order_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetOrdersByUidReq) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+type GetOrdersByUidRes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Orders []*OrderInfo `protobuf:"bytes,1,rep,name=orders,proto3" json:"orders,omitempty"`
+}
+
+func (x *GetOrdersByUidRes) Reset() {
+	*x = GetOrdersByUidRes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quant_order_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetOrdersByUidRes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOrdersByUidRes) ProtoMessage() {}
+
+func (x *GetOrdersByUidRes) ProtoReflect() protoreflect.Message {
+	mi := &file_quant_order_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOrdersByUidRes.ProtoReflect.Descriptor instead.
+func (*GetOrdersByUidRes) Descriptor() ([]byte, []int) {
+	return file_quant_order_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetOrdersByUidRes) GetOrders() []*OrderInfo {
+	if x != nil {
+		return x.Orders
+	}
+	return nil
+}
+
+type OrderInfo struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id        int64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Uid       int64       `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	BrokeType int32       `protobuf:"varint,3,opt,name=broke_type,json=brokeType,proto3" json:"broke_type,omitempty"`
+	QuantType int32       `protobuf:"varint,4,opt,name=quant_type,json=quantType,proto3" json:"quant_type,omitempty"`
+	AssetType int32       `protobuf:"varint,5,opt,name=asset_type,json=assetType,proto3" json:"asset_type,omitempty"`
+	AssetCode string      `protobuf:"bytes,6,opt,name=asset_code,json=assetCode,proto3" json:"asset_code,omitempty"`
+	Total     int64       `protobuf:"varint,7,opt,name=total,proto3" json:"total,omitempty"`
+	Grids     []*GridData `protobuf:"bytes,8,rep,name=grids,proto3" json:"grids,omitempty"`
+	Hold      int64       `protobuf:"varint,9,opt,name=hold,proto3" json:"hold,omitempty"`
+	Profit    int64       `protobuf:"varint,10,opt,name=profit,proto3" json:"profit,omitempty"`
+	Freeze    int64       `protobuf:"varint,11,opt,name=freeze,proto3" json:"freeze,omitempty"`
+	Status    int32       `protobuf:"varint,12,opt,name=status,proto3" json:"status,omitempty"`
+	Ct        int64       `protobuf:"varint,13,opt,name=ct,proto3" json:"ct,omitempty"`
+}
+
+func (x *OrderInfo) Reset() {
+	*x = OrderInfo{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_quant_order_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *OrderInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OrderInfo) ProtoMessage() {}
+
+func (x *OrderInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_quant_order_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OrderInfo.ProtoReflect.Descriptor instead.
+func (*OrderInfo) Descriptor() ([]byte, []int) {
+	return file_quant_order_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *OrderInfo) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetUid() int64 {
+	if x != nil {
+		return x.Uid
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetBrokeType() int32 {
+	if x != nil {
+		return x.BrokeType
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetQuantType() int32 {
+	if x != nil {
+		return x.QuantType
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetAssetType() int32 {
+	if x != nil {
+		return x.AssetType
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetAssetCode() string {
+	if x != nil {
+		return x.AssetCode
+	}
+	return ""
+}
+
+func (x *OrderInfo) GetTotal() int64 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetGrids() []*GridData {
+	if x != nil {
+		return x.Grids
+	}
+	return nil
+}
+
+func (x *OrderInfo) GetHold() int64 {
+	if x != nil {
+		return x.Hold
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetProfit() int64 {
+	if x != nil {
+		return x.Profit
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetFreeze() int64 {
+	if x != nil {
+		return x.Freeze
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetStatus() int32 {
+	if x != nil {
+		return x.Status
+	}
+	return 0
+}
+
+func (x *OrderInfo) GetCt() int64 {
+	if x != nil {
+		return x.Ct
+	}
+	return 0
+}
+
 var File_quant_order_proto protoreflect.FileDescriptor
 
 var file_quant_order_proto_rawDesc = []byte{
@@ -370,15 +700,55 @@ var file_quant_order_proto_rawDesc = []byte{
 	0x74, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x61, 0x73,
 	0x73, 0x65, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x1b, 0x0a, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74,
 	0x5f, 0x6e, 0x75, 0x6d, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x61, 0x73, 0x73, 0x65,
-	0x74, 0x4e, 0x75, 0x6d, 0x32, 0x4e, 0x0a, 0x05, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x45, 0x0a,
-	0x0f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69, 0x64, 0x4f, 0x72, 0x64, 0x65, 0x72,
-	0x12, 0x17, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69,
-	0x64, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x1a, 0x17, 0x2e, 0x70, 0x75, 0x62, 0x2e,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69, 0x64, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x52,
-	0x65, 0x73, 0x22, 0x00, 0x42, 0x2b, 0x5a, 0x29, 0x2f, 0x55, 0x73, 0x65, 0x72, 0x73, 0x2f, 0x77,
-	0x65, 0x69, 0x77, 0x65, 0x6e, 0x63, 0x68, 0x6f, 0x6e, 0x67, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2f, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x2d, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x2f, 0x70, 0x75,
-	0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x4e, 0x75, 0x6d, 0x22, 0x33, 0x0a, 0x0d, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x4f, 0x72, 0x64,
+	0x65, 0x72, 0x52, 0x65, 0x71, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x6f, 0x69, 0x64, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x6f, 0x69, 0x64, 0x22, 0x0f, 0x0a, 0x0d, 0x43, 0x6c, 0x6f,
+	0x73, 0x65, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x22, 0x25, 0x0a, 0x11, 0x47, 0x65,
+	0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x42, 0x79, 0x55, 0x69, 0x64, 0x52, 0x65, 0x71, 0x12,
+	0x10, 0x0a, 0x03, 0x75, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x75, 0x69,
+	0x64, 0x22, 0x3b, 0x0a, 0x11, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x42, 0x79,
+	0x55, 0x69, 0x64, 0x52, 0x65, 0x73, 0x12, 0x26, 0x0a, 0x06, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x4f, 0x72, 0x64,
+	0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x06, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x22, 0xd0,
+	0x02, 0x0a, 0x09, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a, 0x02,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x10, 0x0a, 0x03,
+	0x75, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x1d,
+	0x0a, 0x0a, 0x62, 0x72, 0x6f, 0x6b, 0x65, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x09, 0x62, 0x72, 0x6f, 0x6b, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a,
+	0x0a, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x05, 0x52, 0x09, 0x71, 0x75, 0x61, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a, 0x0a,
+	0x61, 0x73, 0x73, 0x65, 0x74, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x05,
+	0x52, 0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1d, 0x0a, 0x0a, 0x61,
+	0x73, 0x73, 0x65, 0x74, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x61, 0x73, 0x73, 0x65, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x74, 0x6f,
+	0x74, 0x61, 0x6c, 0x18, 0x07, 0x20, 0x01, 0x28, 0x03, 0x52, 0x05, 0x74, 0x6f, 0x74, 0x61, 0x6c,
+	0x12, 0x23, 0x0a, 0x05, 0x67, 0x72, 0x69, 0x64, 0x73, 0x18, 0x08, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x0d, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x47, 0x72, 0x69, 0x64, 0x44, 0x61, 0x74, 0x61, 0x52, 0x05,
+	0x67, 0x72, 0x69, 0x64, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x68, 0x6f, 0x6c, 0x64, 0x18, 0x09, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x04, 0x68, 0x6f, 0x6c, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x70, 0x72, 0x6f,
+	0x66, 0x69, 0x74, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x70, 0x72, 0x6f, 0x66, 0x69,
+	0x74, 0x12, 0x16, 0x0a, 0x06, 0x66, 0x72, 0x65, 0x65, 0x7a, 0x65, 0x18, 0x0b, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x06, 0x66, 0x72, 0x65, 0x65, 0x7a, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x05, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x0e, 0x0a, 0x02, 0x63, 0x74, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x63,
+	0x74, 0x32, 0xca, 0x01, 0x0a, 0x05, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x45, 0x0a, 0x0f, 0x43,
+	0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69, 0x64, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x12, 0x17,
+	0x2e, 0x70, 0x75, 0x62, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69, 0x64, 0x4f,
+	0x72, 0x64, 0x65, 0x72, 0x52, 0x65, 0x71, 0x1a, 0x17, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x43, 0x72,
+	0x65, 0x61, 0x74, 0x65, 0x47, 0x72, 0x69, 0x64, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73,
+	0x22, 0x00, 0x12, 0x36, 0x0a, 0x0a, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x4f, 0x72, 0x64, 0x65, 0x72,
+	0x12, 0x12, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x43, 0x6c, 0x6f, 0x73, 0x65, 0x4f, 0x72, 0x64, 0x65,
+	0x72, 0x52, 0x65, 0x71, 0x1a, 0x12, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x43, 0x6c, 0x6f, 0x73, 0x65,
+	0x4f, 0x72, 0x64, 0x65, 0x72, 0x52, 0x65, 0x73, 0x22, 0x00, 0x12, 0x42, 0x0a, 0x0e, 0x47, 0x65,
+	0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x42, 0x79, 0x55, 0x69, 0x64, 0x12, 0x16, 0x2e, 0x70,
+	0x75, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x4f, 0x72, 0x64, 0x65, 0x72, 0x73, 0x42, 0x79, 0x55, 0x69,
+	0x64, 0x52, 0x65, 0x71, 0x1a, 0x16, 0x2e, 0x70, 0x75, 0x62, 0x2e, 0x47, 0x65, 0x74, 0x4f, 0x72,
+	0x64, 0x65, 0x72, 0x73, 0x42, 0x79, 0x55, 0x69, 0x64, 0x52, 0x65, 0x73, 0x22, 0x00, 0x42, 0x2b,
+	0x5a, 0x29, 0x2f, 0x55, 0x73, 0x65, 0x72, 0x73, 0x2f, 0x77, 0x65, 0x69, 0x77, 0x65, 0x6e, 0x63,
+	0x68, 0x6f, 0x6e, 0x67, 0x2f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2f, 0x71, 0x75, 0x61, 0x6e,
+	0x74, 0x2d, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x2f, 0x70, 0x75, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -393,22 +763,33 @@ func file_quant_order_proto_rawDescGZIP() []byte {
 	return file_quant_order_proto_rawDescData
 }
 
-var file_quant_order_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_quant_order_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_quant_order_proto_goTypes = []interface{}{
 	(*CreateGridOrderReq)(nil), // 0: pub.CreateGridOrderReq
 	(*CreateGridOrderRes)(nil), // 1: pub.CreateGridOrderRes
 	(*GridData)(nil),           // 2: pub.GridData
 	(*AssetData)(nil),          // 3: pub.AssetData
+	(*CloseOrderReq)(nil),      // 4: pub.CloseOrderReq
+	(*CloseOrderRes)(nil),      // 5: pub.CloseOrderRes
+	(*GetOrdersByUidReq)(nil),  // 6: pub.GetOrdersByUidReq
+	(*GetOrdersByUidRes)(nil),  // 7: pub.GetOrdersByUidRes
+	(*OrderInfo)(nil),          // 8: pub.OrderInfo
 }
 var file_quant_order_proto_depIdxs = []int32{
 	2, // 0: pub.CreateGridOrderRes.grids:type_name -> pub.GridData
-	0, // 1: pub.Order.CreateGridOrder:input_type -> pub.CreateGridOrderReq
-	1, // 2: pub.Order.CreateGridOrder:output_type -> pub.CreateGridOrderRes
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8, // 1: pub.GetOrdersByUidRes.orders:type_name -> pub.OrderInfo
+	2, // 2: pub.OrderInfo.grids:type_name -> pub.GridData
+	0, // 3: pub.Order.CreateGridOrder:input_type -> pub.CreateGridOrderReq
+	4, // 4: pub.Order.CloseOrder:input_type -> pub.CloseOrderReq
+	6, // 5: pub.Order.GetOrdersByUid:input_type -> pub.GetOrdersByUidReq
+	1, // 6: pub.Order.CreateGridOrder:output_type -> pub.CreateGridOrderRes
+	5, // 7: pub.Order.CloseOrder:output_type -> pub.CloseOrderRes
+	7, // 8: pub.Order.GetOrdersByUid:output_type -> pub.GetOrdersByUidRes
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_quant_order_proto_init() }
@@ -465,6 +846,66 @@ func file_quant_order_proto_init() {
 				return nil
 			}
 		}
+		file_quant_order_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CloseOrderReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quant_order_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CloseOrderRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quant_order_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOrdersByUidReq); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quant_order_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetOrdersByUidRes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_quant_order_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OrderInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -472,7 +913,7 @@ func file_quant_order_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_quant_order_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -500,6 +941,10 @@ const _ = grpc.SupportPackageIsVersion6
 type OrderClient interface {
 	// 创建订单
 	CreateGridOrder(ctx context.Context, in *CreateGridOrderReq, opts ...grpc.CallOption) (*CreateGridOrderRes, error)
+	// 关闭订单
+	CloseOrder(ctx context.Context, in *CloseOrderReq, opts ...grpc.CallOption) (*CloseOrderRes, error)
+	// 根据uid获取订单详情
+	GetOrdersByUid(ctx context.Context, in *GetOrdersByUidReq, opts ...grpc.CallOption) (*GetOrdersByUidRes, error)
 }
 
 type orderClient struct {
@@ -519,10 +964,32 @@ func (c *orderClient) CreateGridOrder(ctx context.Context, in *CreateGridOrderRe
 	return out, nil
 }
 
+func (c *orderClient) CloseOrder(ctx context.Context, in *CloseOrderReq, opts ...grpc.CallOption) (*CloseOrderRes, error) {
+	out := new(CloseOrderRes)
+	err := c.cc.Invoke(ctx, "/pub.Order/CloseOrder", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) GetOrdersByUid(ctx context.Context, in *GetOrdersByUidReq, opts ...grpc.CallOption) (*GetOrdersByUidRes, error) {
+	out := new(GetOrdersByUidRes)
+	err := c.cc.Invoke(ctx, "/pub.Order/GetOrdersByUid", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OrderServer is the server API for Order service.
 type OrderServer interface {
 	// 创建订单
 	CreateGridOrder(context.Context, *CreateGridOrderReq) (*CreateGridOrderRes, error)
+	// 关闭订单
+	CloseOrder(context.Context, *CloseOrderReq) (*CloseOrderRes, error)
+	// 根据uid获取订单详情
+	GetOrdersByUid(context.Context, *GetOrdersByUidReq) (*GetOrdersByUidRes, error)
 }
 
 // UnimplementedOrderServer can be embedded to have forward compatible implementations.
@@ -531,6 +998,12 @@ type UnimplementedOrderServer struct {
 
 func (*UnimplementedOrderServer) CreateGridOrder(context.Context, *CreateGridOrderReq) (*CreateGridOrderRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateGridOrder not implemented")
+}
+func (*UnimplementedOrderServer) CloseOrder(context.Context, *CloseOrderReq) (*CloseOrderRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CloseOrder not implemented")
+}
+func (*UnimplementedOrderServer) GetOrdersByUid(context.Context, *GetOrdersByUidReq) (*GetOrdersByUidRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrdersByUid not implemented")
 }
 
 func RegisterOrderServer(s *grpc.Server, srv OrderServer) {
@@ -555,6 +1028,42 @@ func _Order_CreateGridOrder_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Order_CloseOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CloseOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).CloseOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pub.Order/CloseOrder",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).CloseOrder(ctx, req.(*CloseOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_GetOrdersByUid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrdersByUidReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).GetOrdersByUid(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/pub.Order/GetOrdersByUid",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).GetOrdersByUid(ctx, req.(*GetOrdersByUidReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Order_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "pub.Order",
 	HandlerType: (*OrderServer)(nil),
@@ -562,6 +1071,14 @@ var _Order_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateGridOrder",
 			Handler:    _Order_CreateGridOrder_Handler,
+		},
+		{
+			MethodName: "CloseOrder",
+			Handler:    _Order_CloseOrder_Handler,
+		},
+		{
+			MethodName: "GetOrdersByUid",
+			Handler:    _Order_GetOrdersByUid_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
