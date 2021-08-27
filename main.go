@@ -10,7 +10,7 @@ import (
 
 func main() {
 	log.Println("service start")
-	lis, err := net.Listen("tcp", PORT)
+	lis, err := net.Listen("tcp", "0.0.0.0:10001")
 	if err != nil {
 		log.Panicf("quant-order service listen err:%v", err)
 		return
