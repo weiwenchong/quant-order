@@ -131,10 +131,10 @@ func (m *grider) InitTask(ctx context.Context) error {
 		}
 	}
 	perPrice := tradMoney / int64(len(m.Grids)-len(minTask))
-	var freeze int64
-	if m.AssetType == 1 || m.AssetType == 2 {
-		freeze = tradMoney
-	}
+	//var freeze int64
+	//if m.AssetType == 1 || m.AssetType == 2 {
+	//	freeze = tradMoney
+	//}
 	id, err := dao.Insert(ctx, dao.DB, dao.ORDER_INFO, []map[string]interface{}{{
 		"uid":       m.Uid,
 		"status":    1,
@@ -144,9 +144,9 @@ func (m *grider) InitTask(ctx context.Context) error {
 		"assetcode": m.AssetCode,
 		"total":     m.TotalMoney,
 		"info":      string(info),
-		"hold":      buyNum,
+		"hold":      0,
 		"profit":    0,
-		"freeze":    freeze,
+		"freeze":    0,
 		"ct":        time.Now().Unix(),
 	}})
 
