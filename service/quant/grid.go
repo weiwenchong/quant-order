@@ -87,11 +87,7 @@ func (m *grider) CreateOrder(ctx context.Context, req *CreateGridOrderReq) (err 
 		g.AssetNum = perNum
 	}
 	m.TotalMoney = perMoney * perNum
-	// 创建任务
-	err = m.InitTask(ctx)
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
 

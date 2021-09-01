@@ -20,6 +20,11 @@ func (m *GrpcOrder) CreateGridOrder(ctx context.Context, req *CreateGridOrderReq
 		return nil, err
 	}
 	log.Printf("%s CreateOrder succeed grider:%v", fun, grider)
+	// 创建任务
+	err = grider.InitTask(ctx)
+	if err != nil {
+		return nil, err
+	}
 
 	log.Printf("%s succeed, req:%v, GridOrder:%v", fun, req, grider)
 	return &CreateGridOrderRes{
@@ -51,4 +56,21 @@ func (m *GrpcOrder) GetOrdersByUid(ctx context.Context, req *GetOrdersByUidReq) 
 
 	log.Printf("%s succeed, req:%v", fun, err)
 	return &GetOrdersByUidRes{Orders: orders}, nil
+}
+
+func (m *GrpcOrder) GetGridTrial(ctx context.Context, req *CreateGridOrderReq) (*CreateGridOrderRes, error) {
+	fun := "GrpcOrder.GetGridTrial -->"
+	log.Printf("%s incall", fun)
+
+	grider := quant.FactoryGrider()
+	err := grider.CreateOrder(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Printf("%s succeed, req:%v, GridOrder:%v", fun, req, grider)
+	return &CreateGridOrderRes{
+		TotalMoney: grider.TotalMoney,
+		Grids:      grider.Grids,
+	}, nil
 }
