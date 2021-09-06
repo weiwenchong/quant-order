@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/wenchong-wei/quant-order/adapter"
 	"github.com/wenchong-wei/quant-order/pub"
 )
 
 func main() {
-	pub.InitClient()
-	fmt.Println(pub.Client.CreateGridOrder(context.TODO(), &pub.CreateGridOrderReq{
+	adapter.InitClient()
+	fmt.Println(adapter.Client.CreateGridOrder(context.TODO(), &pub.CreateGridOrderReq{
 		Uid:        1,
 		BrokerType: 1,
 		QuantType:  1,

@@ -205,7 +205,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		}
 		// 已经sell，下buy单
 		// 更新收益
-		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set profit = profit + %d, hold = hold - %d, where id=%d", dao.ORDER_INFO, (m.Grid.GridMax-m.BuyPrice)*m.Grid.AssetNum, m.Grid.AssetNum, m.Id))
+		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set profit = profit + %d, hold = hold - %d where id=%d", dao.ORDER_INFO, (m.Grid.GridMax-m.BuyPrice)*m.Grid.AssetNum, m.Grid.AssetNum, m.Id))
 		if err != nil {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
@@ -260,7 +260,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		}
 
 		// 已买入，更新持有
-		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set hold = hold + %d, freeze = freeze + %d, where id=%d", dao.ORDER_INFO, m.Grid.AssetNum, freeze, m.Id))
+		_, err = dao.DB.ExecContext(ctx, fmt.Sprintf("update %s set hold = hold + %d, freeze = freeze + %d where id=%d", dao.ORDER_INFO, m.Grid.AssetNum, freeze, m.Id))
 		if err != nil {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
