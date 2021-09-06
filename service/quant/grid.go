@@ -11,6 +11,7 @@ import (
 	"github.com/wenchong-wei/quant-order/service/model/dao"
 	"github.com/wenchong-wei/quant-order/service/trader"
 	"github.com/wenchong-wei/quant-order/service/util"
+	taskAdapter "github.com/wenchong-wei/quant-task/Adapter"
 	task "github.com/wenchong-wei/quant-task/pub"
 	"log"
 	"time"
@@ -182,7 +183,7 @@ func (m *grider) InitTask(ctx context.Context) error {
 			Message:   string(tq),
 		})
 	}
-	_, err = task.Client.CreatePriceTask(ctx, createTaskReq)
+	_, err = taskAdapter.Client.CreatePriceTask(ctx, createTaskReq)
 	if err != nil {
 		log.Printf("%s CreatePriceTask err:%v", fun, err)
 		return err
@@ -233,7 +234,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 				Message:   string(tq),
 			}},
 		}
-		_, err = task.Client.CreatePriceTask(ctx, createTaskReq)
+		_, err = taskAdapter.Client.CreatePriceTask(ctx, createTaskReq)
 		if err != nil {
 			log.Printf("%s CreatePriceTask err:%v", fun, err)
 		}
@@ -286,7 +287,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 				Message:   string(tq),
 			}},
 		}
-		_, err = task.Client.CreatePriceTask(ctx, createTaskReq)
+		_, err = taskAdapter.Client.CreatePriceTask(ctx, createTaskReq)
 		if err != nil {
 			log.Printf("%s CreatePriceTask err:%v", fun, err)
 		}
