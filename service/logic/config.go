@@ -3,7 +3,7 @@ package logic
 import (
 	"context"
 	"github.com/wenchong-wei/quant-order/service/quant"
-	task "github.com/wenchong-wei/quant-task/pub"
+	task "github.com/wenchong-wei/quant-task/Adapter"
 )
 
 func InitLogic() {

@@ -7,7 +7,7 @@ require (
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gogf/gf v1.16.5
-	github.com/wenchong-wei/quant-task v0.0.0-20210824121302-014428a3ef5f
+	github.com/wenchong-wei/quant-task v0.0.0-20210906114043-05efc5f340bf
 	google.golang.org/grpc v1.40.0
-	google.golang.org/protobuf v1.25.0
+	google.golang.org/protobuf v1.27.1
 )
