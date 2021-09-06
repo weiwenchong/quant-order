@@ -11,7 +11,7 @@ import (
 	"github.com/wenchong-wei/quant-order/service/model/dao"
 	"github.com/wenchong-wei/quant-order/service/trader"
 	"github.com/wenchong-wei/quant-order/service/util"
-	taskAdapter "github.com/wenchong-wei/quant-task/Adapter"
+	taskAdapter "github.com/wenchong-wei/quant-task/adapter"
 	task "github.com/wenchong-wei/quant-task/pub"
 	"log"
 	"time"
