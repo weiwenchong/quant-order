@@ -49,7 +49,7 @@ func init() {
 func GetAssetPrice(ctx context.Context, t int32, code string) (price int64, err error) {
 	res := Client.Get(fmt.Sprintf("%d_%s", t, code))
 	if res.Err() != nil {
-		return 0, err
+		return 0, res.Err()
 	}
 	price, err = strconv.ParseInt(res.Val(), 10, 64)
 	return

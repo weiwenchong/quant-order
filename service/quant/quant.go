@@ -3,8 +3,8 @@ package quant
 import (
 	"context"
 	"encoding/json"
-	. "github.com/wenchong-wei/quant-order/pub"
-	"github.com/wenchong-wei/quant-order/service/model/dao"
+	. "github.com/weiwenchong/quant-order/pub"
+	"github.com/weiwenchong/quant-order/service/model/dao"
 	"log"
 )
 

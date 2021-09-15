@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	. "github.com/wenchong-wei/quant-order/pub"
-	"github.com/wenchong-wei/quant-order/service/quant"
+	. "github.com/weiwenchong/quant-order/pub"
+	"github.com/weiwenchong/quant-order/service/quant"
 	"log"
 )
 

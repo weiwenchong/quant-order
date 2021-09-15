@@ -6,13 +6,13 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gogf/gf/os/gcron"
-	. "github.com/wenchong-wei/quant-order/pub"
-	"github.com/wenchong-wei/quant-order/service/model/cache"
-	"github.com/wenchong-wei/quant-order/service/model/dao"
-	"github.com/wenchong-wei/quant-order/service/trader"
-	"github.com/wenchong-wei/quant-order/service/util"
-	taskAdapter "github.com/wenchong-wei/quant-task/adapter"
-	task "github.com/wenchong-wei/quant-task/pub"
+	. "github.com/weiwenchong/quant-order/pub"
+	"github.com/weiwenchong/quant-order/service/model/cache"
+	"github.com/weiwenchong/quant-order/service/model/dao"
+	"github.com/weiwenchong/quant-order/service/trader"
+	"github.com/weiwenchong/quant-order/service/util"
+	taskAdapter "github.com/weiwenchong/quant-task/adapter"
+	task "github.com/weiwenchong/quant-task/pub"
 	"log"
 	"time"
 )
@@ -181,6 +181,7 @@ func (m *grider) InitTask(ctx context.Context) error {
 			Condition: task.PriceCondition_LESS,
 			Price:     t.GridMin,
 			Message:   string(tq),
+			Uid:       m.Uid,
 		})
 	}
 	_, err = taskAdapter.Client.CreatePriceTask(ctx, createTaskReq)
@@ -210,10 +211,10 @@ func (m *griderTask) DoTask(ctx context.Context) {
 		if err != nil {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
-		_, err = trader.FactoryTrader(m.TradeType, m.Uid).Buy(ctx, m.AssetType, m.AssetCode, m.Grid.AssetNum, m.Grid.GridMin)
+		_, err = trader.FactoryTrader(m.BrokeType, m.Uid).Buy(ctx, m.AssetType, m.AssetCode, m.Grid.AssetNum, m.Grid.GridMin)
 		if err != nil {
 			log.Printf("%s Buy err:%v", fun, err)
-			return
+			//return
 		}
 
 		m.TradeType = 1
@@ -266,7 +267,7 @@ func (m *griderTask) DoTask(ctx context.Context) {
 			log.Printf("%s dao.DB.ExecContext err:%v", fun, err)
 		}
 
-		_, err = trader.FactoryTrader(m.TradeType, m.Uid).Sell(ctx, m.AssetType, m.AssetCode, m.Grid.AssetNum, m.Grid.GridMax)
+		_, err = trader.FactoryTrader(m.BrokeType, m.Uid).Sell(ctx, m.AssetType, m.AssetCode, m.Grid.AssetNum, m.Grid.GridMax)
 		if err != nil {
 			log.Printf("%s Sell err:%v", fun, err)
 		}

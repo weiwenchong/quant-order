@@ -3,7 +3,7 @@ package trader
 import (
 	"context"
 	"errors"
-	. "github.com/wenchong-wei/quant-order/pub"
+	. "github.com/weiwenchong/quant-order/pub"
 	"log"
 )
 

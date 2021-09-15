@@ -2,8 +2,8 @@ package logic
 
 import (
 	"context"
-	"github.com/wenchong-wei/quant-order/service/model/cache"
-	"github.com/wenchong-wei/quant-order/service/quant"
+	"github.com/weiwenchong/quant-order/service/model/cache"
+	"github.com/weiwenchong/quant-order/service/quant"
 	"log"
 )
 
@@ -13,7 +13,7 @@ func consumRedisTopic(ctx context.Context) {
 	for {
 		select {
 		case msg := <-sub.Channel():
-			log.Println("%s recive %v", fun, msg)
+			log.Printf("%s recive %v", fun, msg)
 			quant.ConsumerTask(ctx, msg.Payload)
 		}
 	}

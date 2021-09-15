@@ -2,7 +2,7 @@ package adapter
 
 import (
 	"github.com/gogf/gf/os/gcron"
-	"github.com/wenchong-wei/quant-order/pub"
+	"github.com/weiwenchong/quant-order/pub"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/connectivity"
 	"log"
