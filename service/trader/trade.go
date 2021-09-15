@@ -13,7 +13,7 @@ type trader interface {
 	// 返回买入总价
 	Buy(ctx context.Context, assetType int32, assetCode string, num int64, price int64) (tradeMoney int64, err error)
 	Sell(ctx context.Context, assetType int32, assetCode string, num int64, price int64) (tradelMoney int64, err error)
-	Query(ctx context.Context) (assets []*AssetData, err error)
+	Query(ctx context.Context) (assets []*Asset, err error)
 }
 
 func FactoryTrader(t int32, uid int64) trader {
@@ -39,7 +39,7 @@ func (t *badTrader) Sell(ctx context.Context, assetType int32, assetCode string,
 	return 0, errors.New("invalid Trader")
 }
 
-func (t *badTrader) Query(ctx context.Context) (assets []*AssetData, err error) {
+func (t *badTrader) Query(ctx context.Context) (assets []*Asset, err error) {
 	return nil, errors.New("invalid Trader")
 }
 
