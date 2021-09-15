@@ -3,6 +3,8 @@ package trader
 import (
 	"context"
 	"errors"
+	mocktranderAdapter "github.com/weiwenchong/quant-mocktrander/adapter"
+	mocktrander "github.com/weiwenchong/quant-mocktrander/pub"
 	. "github.com/weiwenchong/quant-order/pub"
 	"log"
 )
@@ -46,13 +48,44 @@ type mockTrader struct {
 }
 
 func (t *mockTrader) Buy(ctx context.Context, assetType int32, assetCode string, num int64, price int64) (tradeMoney int64, err error) {
-	return
+	res, err := mocktranderAdapter.Client.Buy(ctx, &mocktrander.BuyReq{
+		Uid:   t.uid,
+		Type:  assetType,
+		Code:  assetCode,
+		Num:   num,
+		Price: price,
+	})
+	if err != nil {
+		return 0, err
+	}
+	return res.Total, nil
 }
 
 func (t *mockTrader) Sell(ctx context.Context, assetType int32, assetCode string, num int64, price int64) (tradelMoney int64, err error) {
-	return
+	res, err := mocktranderAdapter.Client.Sell(ctx, &mocktrander.SellReq{
+		Uid:   t.uid,
+		Type:  assetType,
+		Code:  assetCode,
+		Num:   num,
+		Price: price,
+	})
+	if err != nil {
+		return 0, err
+	}
+	return res.Total, nil
 }
 
 func (t *mockTrader) Query(ctx context.Context) (assets []*AssetData, err error) {
+	res, err := mocktranderAdapter.Client.Query(ctx, &mocktrander.QueryReq{Uid: t.uid})
+	if err != nil {
+		return nil, err
+	}
+	for _, asset := range res.Assets {
+		assets = append(assets, &AssetData{
+			AssetType: asset.Type,
+			AssetCode: asset.Code,
+			AssetNum:  asset.Num,
+		})
+	}
 	return
 }

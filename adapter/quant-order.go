@@ -15,7 +15,7 @@ var (
 	Conn   *grpc.ClientConn
 )
 
-func InitClient() {
+func init() {
 	log.Printf("initClient start")
 	gcron.Add("* * * * * *", func() {
 		var err error
