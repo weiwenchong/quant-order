@@ -53,7 +53,7 @@ message GridData {
     int64 grid_min = 3;
 }
 
-message AssetData {
+message Asset {
     // 资产类型 -1人名币 -2港币 -3美元 1上证 2深证 3美股(包括道琼斯和纳斯达克) 4港股
     int32 asset_type = 1;
     string asset_code = 2;

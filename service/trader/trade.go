@@ -75,13 +75,13 @@ func (t *mockTrader) Sell(ctx context.Context, assetType int32, assetCode string
 	return res.Total, nil
 }
 
-func (t *mockTrader) Query(ctx context.Context) (assets []*AssetData, err error) {
+func (t *mockTrader) Query(ctx context.Context) (assets []*Asset, err error) {
 	res, err := mocktranderAdapter.Client.Query(ctx, &mocktrander.QueryReq{Uid: t.uid})
 	if err != nil {
 		return nil, err
 	}
 	for _, asset := range res.Assets {
-		assets = append(assets, &AssetData{
+		assets = append(assets, &Asset{
 			AssetType: asset.Type,
 			AssetCode: asset.Code,
 			AssetNum:  asset.Num,
